@@ -10,7 +10,7 @@ prepare:
 train:
   seed: 321
   model:
-    max_depth: 1
+    max_depth: 10
     # predictors: [
     #     "V_X",
     #     "V_Y",

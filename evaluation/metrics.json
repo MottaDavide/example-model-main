@@ -1,6 +1,6 @@
 {
-    "true_negative": 1.0,
-    "true_positive": 0.5217391304347826,
-    "false_negative": 0.4782608695652174,
-    "false_positive": 0.0
+    "true_negative": 0.9807692307692307,
+    "true_positive": 0.9130434782608695,
+    "false_negative": 0.08695652173913043,
+    "false_positive": 0.019230769230769232
 }
