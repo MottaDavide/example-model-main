@@ -14,15 +14,15 @@ stages:
     outs:
     - path: data/dvc/01_import/iris.parquet
       hash: md5
-      md5: 2b58e7ea93e5a880ba79b6507d6f3835
-      size: 5097
+      md5: 5501845ef702e59bc1c0c4a6fb70875a
+      size: 5629
   prepare:
     cmd: python script/dvc/02_dvc_prepare.py
     deps:
     - path: data/dvc/01_import/iris.parquet
       hash: md5
-      md5: 2b58e7ea93e5a880ba79b6507d6f3835
-      size: 5097
+      md5: 5501845ef702e59bc1c0c4a6fb70875a
+      size: 5629
     - path: script/dvc/02_dvc_prepare.py
       hash: md5
       md5: d1f2713c9463632e43bbcf81b58ad420
@@ -37,16 +37,16 @@ stages:
     outs:
     - path: data/dvc/02_prepare/test.parquet
       hash: md5
-      md5: bb932c595d915d2ab1a31b2f42a7be19
-      size: 5672
+      md5: ac66f4a8d5092bb6235555e1fd92716c
+      size: 6315
     - path: data/dvc/02_prepare/train.parquet
       hash: md5
-      md5: 33d0f66e72d1eaf229ba1d7eccb6b96b
-      size: 5450
+      md5: 8bfcab29deb1a3a8d5ed57a5da58862b
+      size: 6087
     - path: data/dvc/02_prepare/valid.parquet
       hash: md5
-      md5: f4dec8acfe6398284e57f2c4be67e5ab
-      size: 4939
+      md5: 1fed3faaf35bbe4163307fe681f307c1
+      size: 5576
   train:
     cmd: "python src/app/cli.py  --train-file \"data/dvc/02_prepare/train.parquet\"\
       \ --valid-file \"data/dvc/02_prepare/valid.parquet\" --model-fit-file \"data/dvc/03_train/model_fit.pkl\"\
@@ -58,17 +58,17 @@ stages:
       size: 1304
     - path: data/dvc/02_prepare/train.parquet
       hash: md5
-      md5: 33d0f66e72d1eaf229ba1d7eccb6b96b
-      size: 5450
+      md5: 8bfcab29deb1a3a8d5ed57a5da58862b
+      size: 6087
     - path: data/dvc/02_prepare/valid.parquet
       hash: md5
-      md5: f4dec8acfe6398284e57f2c4be67e5ab
-      size: 4939
+      md5: 1fed3faaf35bbe4163307fe681f307c1
+      size: 5576
     - path: src/
       hash: md5
-      md5: d84ef3c039e28088e804d10c028e93f2.dir
-      size: 36694
-      nfiles: 36
+      md5: 02c7bea5767519c0ed0db1b4b5fa356b.dir
+      size: 36654
+      nfiles: 32
     params:
       params.yaml:
         train:
@@ -79,19 +79,19 @@ stages:
     outs:
     - path: data/dvc/03_train/model_fit.pkl
       hash: md5
-      md5: 9c0b419113128eed1215bbb7ecad1797
-      size: 55409
+      md5: f1791ec2b223cd0e93a6620ec0c6d715
+      size: 52613
   predict:
     cmd: python script/dvc/04_dvc_predict.py
     deps:
     - path: data/dvc/02_prepare/test.parquet
       hash: md5
-      md5: bb932c595d915d2ab1a31b2f42a7be19
-      size: 5672
+      md5: ac66f4a8d5092bb6235555e1fd92716c
+      size: 6315
     - path: data/dvc/03_train/model_fit.pkl
       hash: md5
-      md5: 9c0b419113128eed1215bbb7ecad1797
-      size: 55409
+      md5: f1791ec2b223cd0e93a6620ec0c6d715
+      size: 52613
     - path: script/dvc/04_dvc_predict.py
       hash: md5
       md5: e58013eed662e6ed9f993e673b5065a4
@@ -104,19 +104,19 @@ stages:
     outs:
     - path: data/dvc/04_predict/pred.parquet
       hash: md5
-      md5: e9f2b6060766c6bdbd31be7e667400b5
-      size: 6253
+      md5: 2b037ec5fcf9c9ec17011eb4c3a554c4
+      size: 7000
   evaluate:
     cmd: python script/dvc/05_dvc_evaluate_classifier.py
     deps:
     - path: data/dvc/03_train/model_fit.pkl
       hash: md5
-      md5: 9c0b419113128eed1215bbb7ecad1797
-      size: 55409
+      md5: f1791ec2b223cd0e93a6620ec0c6d715
+      size: 52613
     - path: data/dvc/04_predict/pred.parquet
       hash: md5
-      md5: e9f2b6060766c6bdbd31be7e667400b5
-      size: 6253
+      md5: 2b037ec5fcf9c9ec17011eb4c3a554c4
+      size: 7000
     - path: script/dvc/05_dvc_evaluate_classifier.py
       hash: md5
       md5: 4ccf3cc978acd20c2aec90edaba2e7f7
@@ -136,8 +136,8 @@ stages:
     deps:
     - path: data/dvc/03_train/model_fit.pkl
       hash: md5
-      md5: 9c0b419113128eed1215bbb7ecad1797
-      size: 55409
+      md5: f1791ec2b223cd0e93a6620ec0c6d715
+      size: 52613
     - path: script/dvc/07_dvc_build.sh
       hash: md5
       md5: e7ec7069abb03f950676a103a2f0f590
@@ -145,6 +145,6 @@ stages:
     outs:
     - path: data/dvc/07_build/
       hash: md5
-      md5: c2a3bcfffd6a87d4e390b67e4d9e9a50.dir
-      size: 65130
+      md5: 515770ee728b3e986f9008277b8c242b.dir
+      size: 62337
       nfiles: 3
