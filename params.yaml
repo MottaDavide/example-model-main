@@ -1,0 +1,31 @@
+import:
+  iris_parquet: "data/dvc/01_import/iris.parquet"
+
+prepare:
+  seed: 113
+  train_parquet: "data/dvc/02_prepare/train.parquet"
+  valid_parquet: "data/dvc/02_prepare/valid.parquet"
+  test_parquet: "data/dvc/02_prepare/test.parquet"
+  
+train:
+  seed: 321
+  model:
+    max_depth: 1
+    # predictors: [
+    #     "V_X",
+    #     "V_Y",
+    #     "V_Z",
+    # ]
+    # predictor_history: 20
+    # epoch_n: 3
+    # batch_size: 16
+    # p_learning_rate: 0.001
+  model_fit_file: "data/dvc/03_train/model_fit.pkl"
+
+predict:
+  seed: 321
+  pred_parquet: "data/dvc/04_predict/pred.parquet"
+
+evaluate:
+  positive_level_idx: 0
+  proba_threshold: 0.12

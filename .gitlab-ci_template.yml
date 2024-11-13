@@ -1,0 +1,33 @@
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - .cache/pip
+
+variables:
+  DOCKER_IMAGE: iterativeai/cml:0-dvc2-base1
+  REPOSITORY_ID: 39485327
+
+stages:
+  - train_and_report
+
+train_and_report:
+  stage: train_and_report  
+  image: $DOCKER_IMAGE
+  before_script:
+    # - echo "192.168.0.111 gitlab.vanlog
+    # - pip install poetry
+    # - poetry --version
+    # - poetry config repositories.gitlab "https://gitlab.com/api/v4/projects/${REPOSITORY_ID}/packages/pypi"
+    - echo "${REPOSITORY_ID}"
+  script:
+    # - poetry config virtualenvs.in-project false
+    # - poetry install -vv
+    # Create CML report
+    # - script/ci/make_report.sh
+    - test -n "${REPO_TOKEN}" && echo REPO_TOKEN is set
+    - cml comment create evaluation/report.md
+  rules:
+    - if: $CI_COMMIT_TAG
+    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_COMMIT_BRANCH == "develop"
+  # when: manual

@@ -1,0 +1,7 @@
+[python]
+use_venv = true
+use_pyenv = false
+
+[venv]
+backend = "conda"
+in_project = false

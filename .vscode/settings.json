@@ -1,0 +1,61 @@
+{
+    "[python]": {
+        "editor.insertSpaces": true,
+        "editor.tabSize": 4
+    },
+    "autoDocstring.customTemplatePath": ".vscode/google_no_types.mustache",
+    "cSpell.customDictionaries": {
+        "custom-dictionary-workspace": {
+            "addWords": true,
+            "name": "custom-dictionary-workspace",
+            "path": "${workspaceFolder}/.cspell/custom-dictionary-workspace.txt",
+            "scope": "workspace"
+        }
+    },
+    "dvc.studio.shareExperimentsLive": true,
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "files.autoSave": "afterDelay",
+    "files.exclude": {
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true,
+        "**/__pycache__": true
+    },
+    "files.watcherExclude": {
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true,
+        "**/.venv": true,
+        "**/__pycache__": true
+    },
+    "jupyter.interactiveWindow.codeLens.enableGotoCell": false,
+    "jupyter.notebookFileRoot": "${workspaceFolder}",
+    "python.analysis.typeCheckingMode": "basic",
+    "python.defaultInterpreterPath": ".venv/bin/python",
+    "python.envFile": "${workspaceFolder}/.env",
+    "python.formatting.provider": "black",
+    "python.linting.enabled": true,
+    "python.linting.flake8CategorySeverity.E": "Error",
+    "python.linting.flake8CategorySeverity.F": "Warning",
+    "python.linting.flake8CategorySeverity.W": "Hint",
+    "python.linting.flake8Enabled": false,
+    "python.linting.mypyCategorySeverity.error": "Error",
+    "python.linting.mypyEnabled": true,
+    "python.testing.pytestArgs": [
+        "--typeguard-packages=app"
+    ],
+    "python.testing.pytestEnabled": true,
+    "python.testing.unittestEnabled": false,
+    "quarto.path": ".opt/quarto/1.2.262/bin/quarto",
+    "r.rmarkdown.knit.defaults.knitWorkingDirectory": "workspace root",
+    "terminal.integrated.env.linux": {
+        "PATH": "${env:PATH}:${workspaceFolder}/.opt/quarto/1.2.262/bin",
+        "PYTHONPATH": "${workspaceFolder}/src"
+    },
+    "terminal.integrated.env.osx": {
+        "PYTHONPATH": "${workspaceFolder}/src"
+    },
+    "terminal.integrated.env.windows": {
+        "PYTHONPATH": "${workspaceFolder}/src"
+    }
+}

@@ -1,0 +1,84 @@
+Metadata-Version: 2.1
+Name: app
+Version: 0.1.0
+Summary: This is a short project description.
+Author-email: AI Team <info@aiteam.it>
+License: 
+        
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: polars>=0.20.31
+Requires-Dist: pandas>=2.0.0
+Requires-Dist: typer>=0.12.3
+Requires-Dist: pydantic[dotenv]>=2.7.4
+Requires-Dist: scikit-learn>=1.5.0
+Requires-Dist: pyarrow>=16.1.0
+Requires-Dist: pydantic-settings>=2.3.4
+Requires-Dist: mkdocs-minify-plugin>=0.8.0
+Requires-Dist: matplotlib>=3.9.0
+Requires-Dist: ipywidgets>=8.1.3
+Requires-Dist: plotly>=5.22.0
+Provides-Extra: doc
+Requires-Dist: mkdocs>=1.6.0; extra == "doc"
+Requires-Dist: mkdocs-material>=9.5.27; extra == "doc"
+Requires-Dist: mkdocs-macros-plugin>=1.0.5; extra == "doc"
+Requires-Dist: mkdocstrings>=0.25.1; extra == "doc"
+Requires-Dist: mkdocs-autorefs>=1.0.1; extra == "doc"
+Requires-Dist: mkdocs-simple-plugin>=3.1.0; extra == "doc"
+Requires-Dist: mkdocs-jupyter>=0.24.7; extra == "doc"
+Requires-Dist: mkdocs-redirects>=1.2.1; extra == "doc"
+Requires-Dist: mkdocs-gallery>=0.10.1; extra == "doc"
+Requires-Dist: mkdocstrings-crystal>=0.3.7; extra == "doc"
+
+# PACKAGE README
+
+<!--
+
+main pipeline: [![pipeline](https://gitlab.com/vanlog/int/lib/temple/badges/main/pipeline.svg)](https://gitlab.com/vanlog/int/lib/temple/-/pipelines)
+
+main coverage: [![coverage](https://gitlab.com/vanlog/int/lib/temple/badges/main/coverage.svg?job=coverage)](https://gitlab.com/vanlog/int/lib/temple/-/pipelines)
+
+-->
+
+description of the package
+
+## Setup
+
+### Setup the project (once, when the repository is cloned)
+
+This setup process is to be done one time, at the moment of cloning the repository.
+
+Procedure:
+
+```bash
+# warning: this will change you personal user environment (optional).
+make setup
+# this will prepare the package environment and install the dependencies
+make install_dev
+# Initialize a .env file
+cp .env_template .env
+# edit the env variables
+code .env
+# load the configuration
+source config.sh
+```
+
+Activate pre-commit hooks (optional, but advised):
+
+```bash
+# Activate the pre-commit configuration of the file .pre-commit-config.yaml
+pre-commit install
+# get the dvc hooks (once per repository, then it is tracked by git)
+dvc install--use-pre-commit-tool
+```
+
+### Load the configuration (always)
+
+This is to configure the bash instance with environment variables. *This must be
+done for every new bash process.*
+
+```bash
+source config.sh
+```
+

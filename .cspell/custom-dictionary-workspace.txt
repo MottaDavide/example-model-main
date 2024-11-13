@@ -1,0 +1,12 @@
+# Custom Dictionary Words
+autostage
+dataframe
+hardlink
+iloc
+levelname
+pyarrow
+pydantic
+reflink
+sklearn
+streamlit
+typer

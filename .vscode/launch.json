@@ -1,0 +1,85 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python: Remote Attach",
+      "type": "python",
+      "request": "attach",
+      "connect": {
+        "host": "localhost",
+        "port": 5677
+      },
+      "pathMappings": [
+        {
+          "localRoot": "${workspaceFolder}",
+          "remoteRoot": "."
+        }
+      ]
+    },
+    {
+      "name": "Python: Streamlit",
+      "type": "python",
+      "request": "launch",
+      "module": "streamlit",
+      "args": [
+        "run",
+        "${workspaceFolder}/src/app/streamlit/main.py",
+        "--server.fileWatcherType",
+        "none",
+        "--server.port",
+        "8502",
+        "--browser.gatherUsageStats",
+        "false",
+        "logger.level",
+        "info"
+      ],
+      "cwd": "${workspaceFolder}",
+      "envFile": "${workspaceFolder}/.env",
+      "env": {
+        // "PYTHONPATH": "${cwd}:${cwd}/dev-packages"
+        // "STREAMLIT_SERVER_PORT": "8501"
+      }
+    },
+    {
+      "name": "Run Dash",
+      "type": "python",
+      "request": "launch",
+      "module": "app.dash.launch_dash",
+      "args": [],
+      "cwd": "${workspaceFolder}",
+      "envFile": "${workspaceFolder}/.env",
+      "env": {
+        "PYTHONPATH": "${cwd}:${cwd}/dev_packages"
+      },
+    },
+    {
+      "name": "Main File",
+      "type": "python",
+      "request": "launch",
+      "program": "app/main.py",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "env": {
+        "PYTHONPATH": "${cwd}:${cwd}/dev_packages",
+        "VERBOSITY": "DEBUG"
+      }
+    },
+    {
+      "name": "Python: Debug Tests (for VS Code, do not use directly)",
+      "type": "python",
+      "request": "launch",
+      "program": "${file}",
+      "purpose": [
+          "debug-test"
+      ],
+      "console": "integratedTerminal",
+      "env": {
+          "PYTEST_ADDOPTS": "--no-cov"
+      },
+      "justMyCode": false
+    }
+  ]
+}

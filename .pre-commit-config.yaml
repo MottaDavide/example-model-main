@@ -1,0 +1,13 @@
+repos:
+- repo: local
+  hooks:
+  - id: check-added-large-files
+    name: Avoid to commit too large files, track them with DVC instead.
+    entry: check-added-large-files
+    language: system
+    args: [--maxkb=2048]
+    # -   id: check-requirements
+    #     name: check requirements files
+    #     language: system
+    #     entry: python -m scripts.check_requirements --compare
+    #     files: ^requirements.*\.txt$

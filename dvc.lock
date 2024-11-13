@@ -1,0 +1,150 @@
+schema: '2.0'
+stages:
+  import:
+    cmd: python script/dvc/01_dvc_import.py
+    deps:
+    - path: script/dvc/01_dvc_import.py
+      hash: md5
+      md5: 1dffb7a6797a22b5c11aae2b10455873
+      size: 583
+    params:
+      params.yaml:
+        import:
+          iris_parquet: data/dvc/01_import/iris.parquet
+    outs:
+    - path: data/dvc/01_import/iris.parquet
+      hash: md5
+      md5: 2b58e7ea93e5a880ba79b6507d6f3835
+      size: 5097
+  prepare:
+    cmd: python script/dvc/02_dvc_prepare.py
+    deps:
+    - path: data/dvc/01_import/iris.parquet
+      hash: md5
+      md5: 2b58e7ea93e5a880ba79b6507d6f3835
+      size: 5097
+    - path: script/dvc/02_dvc_prepare.py
+      hash: md5
+      md5: d1f2713c9463632e43bbcf81b58ad420
+      size: 787
+    params:
+      params.yaml:
+        prepare:
+          seed: 113
+          train_parquet: data/dvc/02_prepare/train.parquet
+          valid_parquet: data/dvc/02_prepare/valid.parquet
+          test_parquet: data/dvc/02_prepare/test.parquet
+    outs:
+    - path: data/dvc/02_prepare/test.parquet
+      hash: md5
+      md5: bb932c595d915d2ab1a31b2f42a7be19
+      size: 5672
+    - path: data/dvc/02_prepare/train.parquet
+      hash: md5
+      md5: 33d0f66e72d1eaf229ba1d7eccb6b96b
+      size: 5450
+    - path: data/dvc/02_prepare/valid.parquet
+      hash: md5
+      md5: f4dec8acfe6398284e57f2c4be67e5ab
+      size: 4939
+  train:
+    cmd: "python src/app/cli.py  --train-file \"data/dvc/02_prepare/train.parquet\"\
+      \ --valid-file \"data/dvc/02_prepare/valid.parquet\" --model-fit-file \"data/dvc/03_train/model_fit.pkl\"\
+      \ --param-file \"params.yaml\"\n"
+    deps:
+    - path: ./script/dvc/03_dvc_train.py
+      hash: md5
+      md5: 5d16febafee8461e322846e401e0236b
+      size: 1304
+    - path: data/dvc/02_prepare/train.parquet
+      hash: md5
+      md5: 33d0f66e72d1eaf229ba1d7eccb6b96b
+      size: 5450
+    - path: data/dvc/02_prepare/valid.parquet
+      hash: md5
+      md5: f4dec8acfe6398284e57f2c4be67e5ab
+      size: 4939
+    - path: src/
+      hash: md5
+      md5: d84ef3c039e28088e804d10c028e93f2.dir
+      size: 36694
+      nfiles: 36
+    params:
+      params.yaml:
+        train:
+          seed: 321
+          model:
+            max_depth: 1
+          model_fit_file: data/dvc/03_train/model_fit.pkl
+    outs:
+    - path: data/dvc/03_train/model_fit.pkl
+      hash: md5
+      md5: 9c0b419113128eed1215bbb7ecad1797
+      size: 55409
+  predict:
+    cmd: python script/dvc/04_dvc_predict.py
+    deps:
+    - path: data/dvc/02_prepare/test.parquet
+      hash: md5
+      md5: bb932c595d915d2ab1a31b2f42a7be19
+      size: 5672
+    - path: data/dvc/03_train/model_fit.pkl
+      hash: md5
+      md5: 9c0b419113128eed1215bbb7ecad1797
+      size: 55409
+    - path: script/dvc/04_dvc_predict.py
+      hash: md5
+      md5: e58013eed662e6ed9f993e673b5065a4
+      size: 823
+    params:
+      params.yaml:
+        predict:
+          seed: 321
+          pred_parquet: data/dvc/04_predict/pred.parquet
+    outs:
+    - path: data/dvc/04_predict/pred.parquet
+      hash: md5
+      md5: e9f2b6060766c6bdbd31be7e667400b5
+      size: 6253
+  evaluate:
+    cmd: python script/dvc/05_dvc_evaluate_classifier.py
+    deps:
+    - path: data/dvc/03_train/model_fit.pkl
+      hash: md5
+      md5: 9c0b419113128eed1215bbb7ecad1797
+      size: 55409
+    - path: data/dvc/04_predict/pred.parquet
+      hash: md5
+      md5: e9f2b6060766c6bdbd31be7e667400b5
+      size: 6253
+    - path: script/dvc/05_dvc_evaluate_classifier.py
+      hash: md5
+      md5: 4ccf3cc978acd20c2aec90edaba2e7f7
+      size: 3523
+    params:
+      params.yaml:
+        evaluate:
+          positive_level_idx: 0
+          proba_threshold: 0.12
+    outs:
+    - path: evaluation/metrics.json
+      hash: md5
+      md5: 0910de7614fafe5b55a94b3aa62f3c25
+      size: 138
+  build:
+    cmd: bash script/dvc/07_dvc_build.sh
+    deps:
+    - path: data/dvc/03_train/model_fit.pkl
+      hash: md5
+      md5: 9c0b419113128eed1215bbb7ecad1797
+      size: 55409
+    - path: script/dvc/07_dvc_build.sh
+      hash: md5
+      md5: e7ec7069abb03f950676a103a2f0f590
+      size: 273
+    outs:
+    - path: data/dvc/07_build/
+      hash: md5
+      md5: c2a3bcfffd6a87d4e390b67e4d9e9a50.dir
+      size: 65130
+      nfiles: 3

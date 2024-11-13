@@ -1,0 +1,126 @@
+stages:
+  import:
+    # Import stage: take data from a raw format and convert it to a format that
+    # is ready for analysis.
+    cmd: python script/dvc/01_dvc_import.py
+    deps:
+    - script/dvc/01_dvc_import.py
+    params:
+    - import
+    outs:
+    - ${import.iris_parquet}
+
+  prepare:
+    # Prepare stage: data are prepared to feed the model training.
+    cmd: python script/dvc/02_dvc_prepare.py
+    deps:
+    - script/dvc/02_dvc_prepare.py
+    - ${import.iris_parquet}
+    params:
+    - prepare
+    outs:
+    - ${prepare.train_parquet}
+    - ${prepare.valid_parquet}
+    - ${prepare.test_parquet}
+
+  train:
+    # Train stage: train the model.
+    # cmd: python ./script/dvc/03_dvc_train.py
+    cmd: >
+      python src/app/cli.py  --train-file "${prepare.train_parquet}"
+      --valid-file "${prepare.valid_parquet}"
+      --model-fit-file "${train.model_fit_file}"
+      --param-file "params.yaml"
+    deps:
+    - ./script/dvc/03_dvc_train.py
+    - src/
+    - ${prepare.train_parquet}
+    - ${prepare.valid_parquet}
+    params:
+    - train
+    outs:
+    - ${train.model_fit_file}
+
+  predict:
+    # Predict stage: predict the test data.
+    cmd: python script/dvc/04_dvc_predict.py
+    deps:
+    - script/dvc/04_dvc_predict.py
+    - ${train.model_fit_file}
+    - ${prepare.test_parquet}
+    params:
+    - predict
+    outs:
+    - ${predict.pred_parquet}:
+        cache: false
+
+  evaluate:
+    cmd: python script/dvc/05_dvc_evaluate_classifier.py
+    deps:
+    - script/dvc/05_dvc_evaluate_classifier.py
+    - ${train.model_fit_file}
+    - ${predict.pred_parquet}
+    params:
+    - evaluate
+    metrics:
+    - evaluation/metrics.json:
+        cache: false
+
+  # report:
+  #   cmd: dvc plots diff
+  #   deps:
+  #   - evaluation/
+  #   outs:
+  #   - dvc_plots/index.html
+
+  build:
+    cmd: bash script/dvc/07_dvc_build.sh
+    deps:
+    - script/dvc/07_dvc_build.sh
+    - data/dvc/03_train/model_fit.pkl
+    outs:
+    - data/dvc/07_build/
+
+
+# plots:
+#   precision_recall_plot:
+#     y: 
+#       evaluation/plots/precision_recall.csv: [precision, threshold]
+#     x: recall 
+#     title: Precision Vs Recall
+#     y_label: Precision
+#     x_label: TPR (Recall, Sensitivity)
+#   roc_plot:
+#     y: 
+#       evaluation/plots/roc_data.csv: [tpr, threshold]
+#     x: fpr
+#     title: ROC Plot
+#     y_label: TPR (Recall, Sensitivity)
+#     x_label: FPR
+#   loss_history:
+#     y: 
+#       evaluation/plots/the_history.csv: [metric, val_metric]
+#     title: Loss history
+#   test_vs_train_confusion:
+#     x: actual_class
+#     y:
+#       evaluation/plots/cm_train_data.csv: predicted_class
+#       evaluation/plots/cm_test_data.csv: predicted_class
+#     title: Compare test vs train confusion matrix
+#     template: confusion
+#     x_label: Actual class
+#     y_label: Predicted class
+#   test_vs_train_normalized_confusion:
+#     x: actual_class
+#     y:
+#       evaluation/plots/cm_train_data.csv: predicted_class
+#       evaluation/plots/cm_test_data.csv: predicted_class
+#     template: confusion_normalized
+#     title: Compare test vs train confusion matrix
+#     x_label: Actual class
+#     y_label: Predicted class
+metrics:
+- dvclive/metrics.json
+plots:
+- dvclive/plots/metrics:
+    x: step

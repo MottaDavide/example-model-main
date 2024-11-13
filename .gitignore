@@ -1,0 +1,25 @@
+# virtual env
+.venv*
+venv*
+
+# env variables
+.env
+
+# builds
+dist/*
+*.pyc
+__pycache__
+
+# logs
+log
+logs
+*.log
+
+# data
+/data/cache
+
+# R
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
