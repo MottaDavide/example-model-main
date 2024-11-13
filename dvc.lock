@@ -74,13 +74,13 @@ stages:
         train:
           seed: 321
           model:
-            max_depth: 1
+            max_depth: 5
           model_fit_file: data/dvc/03_train/model_fit.pkl
     outs:
     - path: data/dvc/03_train/model_fit.pkl
       hash: md5
-      md5: f1791ec2b223cd0e93a6620ec0c6d715
-      size: 52613
+      md5: 4631dbcff4c99237b2350fede79ec316
+      size: 113141
   predict:
     cmd: python script/dvc/04_dvc_predict.py
     deps:
@@ -90,8 +90,8 @@ stages:
       size: 6315
     - path: data/dvc/03_train/model_fit.pkl
       hash: md5
-      md5: f1791ec2b223cd0e93a6620ec0c6d715
-      size: 52613
+      md5: 4631dbcff4c99237b2350fede79ec316
+      size: 113141
     - path: script/dvc/04_dvc_predict.py
       hash: md5
       md5: e58013eed662e6ed9f993e673b5065a4
@@ -104,19 +104,19 @@ stages:
     outs:
     - path: data/dvc/04_predict/pred.parquet
       hash: md5
-      md5: 2b037ec5fcf9c9ec17011eb4c3a554c4
-      size: 7000
+      md5: d403cf6c20cbf9c9b00d919a6c297208
+      size: 6999
   evaluate:
     cmd: python script/dvc/05_dvc_evaluate_classifier.py
     deps:
     - path: data/dvc/03_train/model_fit.pkl
       hash: md5
-      md5: f1791ec2b223cd0e93a6620ec0c6d715
-      size: 52613
+      md5: 4631dbcff4c99237b2350fede79ec316
+      size: 113141
     - path: data/dvc/04_predict/pred.parquet
       hash: md5
-      md5: 2b037ec5fcf9c9ec17011eb4c3a554c4
-      size: 7000
+      md5: d403cf6c20cbf9c9b00d919a6c297208
+      size: 6999
     - path: script/dvc/05_dvc_evaluate_classifier.py
       hash: md5
       md5: 4ccf3cc978acd20c2aec90edaba2e7f7
@@ -129,15 +129,15 @@ stages:
     outs:
     - path: evaluation/metrics.json
       hash: md5
-      md5: 0910de7614fafe5b55a94b3aa62f3c25
-      size: 138
+      md5: ace825bb73fd884b5698dbcc1fcccb28
+      size: 171
   build:
     cmd: bash script/dvc/07_dvc_build.sh
     deps:
     - path: data/dvc/03_train/model_fit.pkl
       hash: md5
-      md5: f1791ec2b223cd0e93a6620ec0c6d715
-      size: 52613
+      md5: 4631dbcff4c99237b2350fede79ec316
+      size: 113141
     - path: script/dvc/07_dvc_build.sh
       hash: md5
       md5: e7ec7069abb03f950676a103a2f0f590
@@ -145,6 +145,6 @@ stages:
     outs:
     - path: data/dvc/07_build/
       hash: md5
-      md5: 515770ee728b3e986f9008277b8c242b.dir
-      size: 62337
+      md5: 62686f53c85e6069a0b5f7d4925451fc.dir
+      size: 122865
       nfiles: 3
